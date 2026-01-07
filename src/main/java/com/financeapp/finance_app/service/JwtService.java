@@ -28,6 +28,17 @@ public class JwtService {
     public String extractUsername(String token){
         return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
     }
+    private Date extractExpriationDate(String token){
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getExpiration();
+    }
+    public boolean isTokenExpired(String token){
+        Date expiration = extractExpriationDate(token);
+        return expiration.before(new Date());
+    }
+    public boolean isValidToken(String token, String username){
+        return (username.equals(extractUsername(token))) &&  !isTokenExpired(token);
+    }
+
 
 
 }

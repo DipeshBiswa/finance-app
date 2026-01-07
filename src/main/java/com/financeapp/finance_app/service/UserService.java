@@ -4,6 +4,9 @@ import com.financeapp.finance_app.config.SecurityConfig;
 import com.financeapp.finance_app.exceptions.EmailAlreadyExistsException;
 import com.financeapp.finance_app.model.user;
 import com.financeapp.finance_app.repository.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -53,5 +56,10 @@ public class UserService {
             return user.get().getEmail();
         }
         return null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return (UserDetails) userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username not found: " + username));
     }
 }
