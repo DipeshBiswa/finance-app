@@ -1,5 +1,6 @@
 package com.financeapp.finance_app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class Transaction {
     private BigDecimal amount;
     @CreationTimestamp
     private LocalDateTime date;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private user user;
