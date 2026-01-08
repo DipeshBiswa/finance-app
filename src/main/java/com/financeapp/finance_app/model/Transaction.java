@@ -23,7 +23,16 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private user user;
+    @Enumerated(EnumType.STRING)
     private Catagory catagory;
+
+    public Transaction(String description, BigDecimal amount, Catagory catagory, LocalDateTime date) {
+        this.description = description;
+        this.amount = amount;
+        this.catagory = catagory;
+        this.date = date;
+    }
+    public Transaction() {}
 
 
 }
