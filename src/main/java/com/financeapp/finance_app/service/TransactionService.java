@@ -27,7 +27,7 @@ public class TransactionService {
         return transactionRepository.findByUser(user);
     }
 
-    public Map<Catagory, BigDecimal> FilterByCatagory(user user){
+    public Map<Catagory, BigDecimal> filterByCatagory(user user){
         HashMap<Catagory, BigDecimal> map = new HashMap<>();
         List<Transaction> transactions = transactionRepository.findByUser(user);
         for(Transaction transaction: transactions){
