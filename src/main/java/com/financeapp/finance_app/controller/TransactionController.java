@@ -27,59 +27,49 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<?> postTransaction(@RequestBody Transaction transaction, Principal principal) {
-        try {
+
             String username = principal.getName();
             user user = (user) userService.loadUserByUsername(username);
             Transaction transaction1 = transactionService.saveTransaction(user, transaction.getDescription(), transaction.getAmount(), transaction.getCatagory(), transaction.getDate());
             return new ResponseEntity<>(transaction1, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     @GetMapping
     public ResponseEntity<?> getTransactions(Principal principal) {
-        try {
+
             String username = principal.getName();
             user user = (user) userService.loadUserByUsername(username);
             List<Transaction> userTransactions = transactionService.getTransactionsByUser(user);
             return new ResponseEntity<>(userTransactions, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     @GetMapping("/summary/category")
     public ResponseEntity<?> getSummaryCategory(Principal principal) {
-        try {
+
             String username = principal.getName();
             user user = (user) userService.loadUserByUsername(username);
             Map<Catagory, BigDecimal> userTransactions = transactionService.filterByCatagory(user);
             return new ResponseEntity<>(userTransactions, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
     }
     @GetMapping("/summary/month")
     public ResponseEntity<?> getSummaryMonth(Principal principal) {
-        try{
+
             String username = principal.getName();
             user user = (user) userService.loadUserByUsername(username);
             BigDecimal amount = transactionService.totalSpendingForCurrentMonth(user);
             return new ResponseEntity<>(amount, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
     }
     @GetMapping("/summary")
     public ResponseEntity<?> getYearlySummary(Principal principal, @RequestParam Integer year){
-        try{
+
             String username = principal.getName();
             user user = (user) userService.loadUserByUsername(username);
             Map<Integer, BigDecimal> yearly = transactionService.getTotalSpendingForCertainYear(user,year);
             return new ResponseEntity<>(yearly, HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
     }
 }
