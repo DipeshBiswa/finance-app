@@ -70,6 +70,11 @@ public class TransactionController {
             user user = (user) userService.loadUserByUsername(username);
             Map<Integer, BigDecimal> yearly = transactionService.getTotalSpendingForCertainYear(user,year);
             return new ResponseEntity<>(yearly, HttpStatus.OK);
-
+    }
+    @GetMapping("/paged")
+    public ResponseEntity<?> getTransactionsPaged(@RequestParam(defaultValue = "0") int page,Principal principal){
+        String username = principal.getName();
+            user user = (user) userService.loadUserByUsername(username);
+            return ResponseEntity.ok(transactionService.getTransactionByUsingUserPaginated(user, page, 10));
     }
 }

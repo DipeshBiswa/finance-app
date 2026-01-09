@@ -4,6 +4,10 @@ import com.financeapp.finance_app.model.Catagory;
 import com.financeapp.finance_app.model.Transaction;
 import com.financeapp.finance_app.model.user;
 import com.financeapp.finance_app.repository.TransactionRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,6 +29,11 @@ public class TransactionService {
     }
     public List<Transaction> getTransactionsByUser(user user){
         return transactionRepository.findByUser(user);
+    }
+
+    public Page<Transaction> getTransactionByUsingUserPaginated(user user, int page, int size){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("date").descending());
+        return transactionRepository.findByUser(user, pageable);
     }
 
     public Map<Catagory, BigDecimal> filterByCatagory(user user){
