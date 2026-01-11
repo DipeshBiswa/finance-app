@@ -28,8 +28,8 @@ public class PlaidConfig {
 
         apiClient.setPlaidAdapter(ApiClient.Sandbox);
 
-        PlaidApi plaidClient = apiClient.createService(PlaidApi.class);
-        return plaidClient;
+        return apiClient.createService(PlaidApi.class);
+
 
     }
 }
