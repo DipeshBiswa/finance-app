@@ -22,8 +22,8 @@ public class TransactionService {
     public TransactionService(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
     }
-    public Transaction saveTransaction(user user,String description, BigDecimal amount, Catagory category, LocalDateTime date) {
-        Transaction transaction = new Transaction(description, amount, category, date);
+    public Transaction saveTransaction(user user,String description, BigDecimal amount, Catagory category, LocalDateTime date, String plaidTransactionId) {
+        Transaction transaction = new Transaction(description, amount, category, date,  plaidTransactionId);
         transaction.setUser(user);
         return transactionRepository.save(transaction);
     }

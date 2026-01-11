@@ -27,14 +27,18 @@ public class Transaction {
     private user user;
     @Enumerated(EnumType.STRING)
     private Catagory catagory;
+    @Column(unique = true, nullable = false)
+    private String plaidTransactionId;
 
-    public Transaction(String description, BigDecimal amount, Catagory catagory, LocalDateTime date) {
+    public Transaction(String description, BigDecimal amount, Catagory catagory, LocalDateTime date, String plaidTransactionId) {
         this.description = description;
         this.amount = amount;
         this.catagory = catagory;
         this.date = date;
+        this.plaidTransactionId = plaidTransactionId;
     }
     public Transaction() {}
+
 
 
 }
