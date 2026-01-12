@@ -28,12 +28,21 @@ public class PlaidController {
 
     }
     @PostMapping("/exchange-public-token")
-    public ResponseEntity<?> exchangeToken(@RequestBody Map<String, String> payload)throws Exception{
+    public ResponseEntity<?> exchangeToken(@RequestBody Map<String, String> payload, Principal principal)throws Exception{
         String publicToken = payload.get("publicToken");
         if(publicToken == null){
             return ResponseEntity.badRequest().body("publicToken is missing");
         }
-        String exhangedToken = plaidService.exchangePublicToken(publicToken);
+        String exhangedToken = plaidService.exchangePublicToken(publicToken, principal.getName());
         return ResponseEntity.ok().body(Map.of("message", "Bank account linked successfully"));
+    }
+    @PostMapping("/sync")
+    public ResponseEntity<?> triggerSync(Principal principal) throws Exception{
+        try{
+            plaidService.syncTransactions(principal.getName());
+            return ResponseEntity.ok().body(Map.of("message", "Sync completed"));
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
     }
 }

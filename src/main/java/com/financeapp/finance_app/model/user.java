@@ -25,6 +25,9 @@ public class user implements UserDetails{
     private String password;
     @Email
     private String email;
+    private String plaidAccessToken;
+    private String plaidItemId;
+    private String plaidCursor;
 
 
     public user( String username, String password, String email){
