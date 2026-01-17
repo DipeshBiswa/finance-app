@@ -26,8 +26,11 @@ public class PlaidService {
     private TransactionRepository transactionRepository;
 
     public String createLinkToken(String clientUserId) throws Exception {
+        //getting the user using the clientUserId
         LinkTokenCreateRequestUser user = new LinkTokenCreateRequestUser().clientUserId(clientUserId);
-        LinkTokenCreateRequest request = new LinkTokenCreateRequest().user(user).clientName("Finance APP").products(Arrays.asList(Products.TRANSACTIONS, Products.AUTH))
+
+        LinkTokenCreateRequest request = new LinkTokenCreateRequest().user(user).clientName("Finance APP").
+                products(Arrays.asList(Products.TRANSACTIONS, Products.AUTH))
                 .countryCodes(Arrays.asList(CountryCode.US)).language("en");
 
         Response<LinkTokenCreateResponse> response = apiClient.linkTokenCreate(request).execute();

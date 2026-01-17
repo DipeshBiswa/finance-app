@@ -30,7 +30,7 @@ public class TransactionController {
 
             String username = principal.getName();
             user user = (user) userService.loadUserByUsername(username);
-            Transaction transaction1 = transactionService.saveTransaction(user, transaction.getDescription(), transaction.getAmount(), transaction.getCatagory(), transaction.getDate());
+            Transaction transaction1 = transactionService.saveTransaction(user, transaction.getDescription(), transaction.getAmount(), transaction.getCatagory(), transaction.getDate(), "");
             return new ResponseEntity<>(transaction1, HttpStatus.CREATED);
 
     }
