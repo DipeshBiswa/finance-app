@@ -1,5 +1,6 @@
 package com.financeapp.finance_app.repository;
 
+import com.financeapp.finance_app.model.Catagory;
 import com.financeapp.finance_app.model.Transaction;
 import com.financeapp.finance_app.model.user;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> findByUser(user user);
     Page<Transaction> findByUser(user user, Pageable pageable);
     Optional<Transaction> findByPlaidTransactionId(String plaidTransactionId);
-
+    List<Transaction> findByUserAndCategory(user user, Catagory category);
 
 }

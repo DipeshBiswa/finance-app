@@ -5,6 +5,7 @@ import com.financeapp.finance_app.model.Transaction;
 import com.financeapp.finance_app.model.user;
 import com.financeapp.finance_app.service.TransactionService;
 import com.financeapp.finance_app.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/transaction")
 public class TransactionController {
+    @Autowired
     private final TransactionService transactionService;
+    @Autowired
     private final UserService userService;
 
     public TransactionController(TransactionService transactionService, UserService userService) {

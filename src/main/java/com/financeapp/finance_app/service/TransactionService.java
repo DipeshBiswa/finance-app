@@ -4,6 +4,7 @@ import com.financeapp.finance_app.model.Catagory;
 import com.financeapp.finance_app.model.Transaction;
 import com.financeapp.finance_app.model.user;
 import com.financeapp.finance_app.repository.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @Service
 public class TransactionService {
+    @Autowired
     private final TransactionRepository transactionRepository;
     public TransactionService(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
