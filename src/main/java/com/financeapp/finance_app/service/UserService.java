@@ -4,6 +4,7 @@ import com.financeapp.finance_app.config.SecurityConfig;
 import com.financeapp.finance_app.exceptions.EmailAlreadyExistsException;
 import com.financeapp.finance_app.model.user;
 import com.financeapp.finance_app.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +18,9 @@ import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final BCryptPasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
