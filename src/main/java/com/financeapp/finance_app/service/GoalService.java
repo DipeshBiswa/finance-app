@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GoalService {
@@ -32,7 +33,7 @@ public class GoalService {
     public void updateGoalProgress(user user){
         List<Goal> userGoals = goalRepository.findAllByUser(user);
         for(Goal goal: userGoals){
-            List<Transaction> transactions= transactionRepository.findByUserAndCategory(user, goal.getCategory());
+            List<Transaction> transactions= transactionRepository.findByUserAndCatagory(user, goal.getCategory());
             BigDecimal total = BigDecimal.ZERO;
             for(Transaction transaction: transactions){
                 total = total.add(transaction.getAmount());
@@ -41,6 +42,9 @@ public class GoalService {
             goalRepository.save(goal);
         }
 
+    }
+    public void deleteGoalByGoalId(Long goalId) {
+       goalRepository.deleteById(goalId);
     }
 
 

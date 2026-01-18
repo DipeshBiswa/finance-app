@@ -7,10 +7,7 @@ import com.financeapp.finance_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -31,5 +28,10 @@ public class GoalController {
         Goal createdGoal = goalService.createGoal(user, goal.getTitle(),goal.getDescription(),goal.getTarget_amount(),goal.getDate(), goal.getCategory());
         return new ResponseEntity<>(createdGoal, HttpStatus.CREATED);
 
+    }
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteGoal(@PathVariable Long id){
+        goalService.deleteGoalByGoalId(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
