@@ -1,50 +1,58 @@
-import {useState, useEffect} from "react";
-import { createRoot } from 'react-dom/client';
-import App from "../App.jsx";
+import { useState } from "react";
+import api from "../api/axios.js";
 
 function RegisterPage() {
-
+    // 1. Keep your state at the top level
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    function handleChangeUsername(e){
-        setUsername(e.target.value);
-    }
-    function handleChangePassword(e){
-        setPassword(e.target.value);
-    }
-    function handelChangeEmail(e){
-        setEmail(e.target.value);
-    }
-    function handleRegister(){
 
-    }
+    const handleRegister = async (e) => {
+        if (e) e.preventDefault(); // Prevents page reload
+
+        const userPayload = {
+            username: username,
+            password: password,
+            email: email
+        };
+
+        try {
+            const response = await api.post("/api/auth/register", userPayload);
+            console.log("Registration Successful!", response.data);
+            alert("User registered!");
+        } catch (err) {
+            console.error("Error registering user", err.response?.data);
+            alert("Registration failed: " + (err.response?.data?.message || "Check console"));
+        }
+    };
+
     return (
-        <>
-            <form>
-                <label>
-                    Enter username:
-                    <input type="text" value={username} onChange={handleChangeUsername} placeholder="username" />
-                </label>
-                <label>
-                    Enter Password:
-                    <input type="text"
-                           value={password}
-                           onChange={handleChangePassword}
-                           placeholder="password" />
-                </label>
-                <label>
-                    Enter email:
-                    <input type="email" value={email} onChange={handelChangeEmail} placeholder="email" />
+        <div className="p-4">
+            <form onSubmit={handleRegister}>
+                <div>
+                    <label>Enter username:</label>
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                </div>
+                <div>
+                    <label>Enter Password:</label>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                <div>
+                    <label>Enter email:</label>
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </div>
 
-                </label>
-                <input type="submit" value="Register" />
+                {/* Submit button inside form is standard */}
+                <button type="submit" className="mt-4 bg-blue-500 text-white p-2">
+                    Register
+                </button>
             </form>
-            <p>Current username: {username}</p>
-            <p>Current password: {password}</p>
-            <p>Current Email: {email}</p>
-        </>
 
+            <hr className="my-4" />
+            <p>Current username: {username}</p>
+            <p>Email: {email}</p>
+        </div>
     );
 }
+
 export default RegisterPage;
