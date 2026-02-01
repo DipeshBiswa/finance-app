@@ -21,6 +21,7 @@ function RegisterPage() {
             const response = await api.post("/api/auth/register", userPayload);
             console.log("Registration Successful!", response.data);
             alert("User registered!");
+            window.location.href = "/dashboard";
         } catch (err) {
             console.error("Error registering user", err.response?.data);
             alert("Registration failed: " + (err.response?.data?.message || "Check console"));
