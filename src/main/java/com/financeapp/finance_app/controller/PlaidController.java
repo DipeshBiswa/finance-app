@@ -34,7 +34,7 @@ public class PlaidController {
             return ResponseEntity.badRequest().body("publicToken is missing");
         }
         String exhangedToken = plaidService.exchangePublicToken(publicToken, principal.getName());
-        return ResponseEntity.ok().body(Map.of("message", "Bank account linked successfully"));
+        return ResponseEntity.ok().body(Map.of(exhangedToken, "Bank account linked successfully"));
     }
     @PostMapping("/sync")
     public ResponseEntity<?> triggerSync(Principal principal) throws Exception{

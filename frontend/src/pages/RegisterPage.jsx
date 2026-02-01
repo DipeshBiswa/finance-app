@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../api/axios.js";
+import "./Registerpage.css"
 
 function RegisterPage() {
     // 1. Keep your state at the top level

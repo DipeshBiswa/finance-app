@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import api from "../api/axios.js";
+import "./Loginpage.css"
 
 function LoginPage() {
 
@@ -37,7 +38,8 @@ function LoginPage() {
     };
 
     return (
-        <>
+        <div>
+
         <form onSubmit={handleLogin}>
             <label>
                 Enter username:
@@ -54,7 +56,7 @@ function LoginPage() {
         </form>
             <p>Current username: {username}</p>
             <p>Current password: {password}</p>
-        </>
+        </div>
 
     );
 }
