@@ -1,13 +1,8 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
+import Dashboard from './pages/Dashboard.jsx'
 
-const Dashboard = () => (
-    <div className="p-8">
-        <h2 className="text-2xl font-bold">Welcome to your Dashboard!</h2>
-        <p>This is where your Plaid transactions will appear.</p>
-    </div>
-);
 function App() {
     return (
         <BrowserRouter>
