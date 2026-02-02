@@ -21,11 +21,18 @@ public class PlaidController {
         this.plaidService = plaidService;
     }
     @PostMapping("/create-link-token")
-    public ResponseEntity<?> createLinkToken(Principal principal) throws Exception {
-        String clientUserId = (principal != null)? principal.getName(): "test_user";
-        String token = plaidService.createLinkToken(clientUserId);
-        return ResponseEntity.ok().body(Map.of("linkToken", token));
+    public ResponseEntity<?> createLinkToken(Principal principal) {
+        try {
+            // If principal is null, use a fallback username for testing
+            String username = (principal != null) ? principal.getName() : "test_user";
+            System.out.println("DEBUG: Fetching token for: " + username);
 
+            String linkToken = plaidService.createLinkToken(username);
+            return ResponseEntity.ok(Map.of("linkToken", linkToken));
+        } catch (Exception e) {
+            e.printStackTrace(); // This prints the error to your IntelliJ console
+            return ResponseEntity.status(500).body("Plaid Service Error: " + e.getMessage());
+        }
     }
     @PostMapping("/exchange-public-token")
     public ResponseEntity<?> exchangeToken(@RequestBody Map<String, String> payload, Principal principal)throws Exception{
