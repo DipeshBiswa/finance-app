@@ -32,6 +32,12 @@ public class UserService implements UserDetailsService {
         if(userRepository.existsByEmail(email)){
             throw new EmailAlreadyExistsException("Email already exits");
         }
+        if(username.length() < 6){
+            throw new IllegalArgumentException("Username too short");
+        }
+        if(password.length() < 8){
+            throw new IllegalArgumentException("Password too short");
+        }
         String hashPassword = passwordEncoder.encode(password);
         user newUser = new user(username,hashPassword,email);
         return userRepository.save(newUser);

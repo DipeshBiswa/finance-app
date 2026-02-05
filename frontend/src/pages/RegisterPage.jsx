@@ -9,14 +9,18 @@ function RegisterPage() {
     const [email, setEmail] = useState("");
 
     const handleRegister = async (e) => {
+        if(password.length < 8) {
+            alert("Password must be at least 8 characters");
+        }
+        else if(username.length < 6) {
+            alert("Username must be at least 6 characters");
+        }else{
         if (e) e.preventDefault(); // Prevents page reload
-
         const userPayload = {
             username: username,
             password: password,
             email: email
         };
-
         try {
             const response = await api.post("/api/auth/register", userPayload);
             console.log("Registration Successful!", response.data);
@@ -26,6 +30,7 @@ function RegisterPage() {
             console.error("Error registering user", err.response?.data);
             alert("Registration failed: " + (err.response?.data?.message || "Check console"));
         }
+    }
     };
 
     return (
