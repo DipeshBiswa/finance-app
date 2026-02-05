@@ -3,10 +3,7 @@ package com.financeapp.finance_app.controller;
 import com.financeapp.finance_app.service.PlaidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Map;
@@ -52,4 +49,5 @@ public class PlaidController {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
     }
+
 }
