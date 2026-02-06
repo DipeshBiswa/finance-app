@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 import api from '../api/axios';
-import TransactionList from './TransactionList'; // Import your new list component
+import TransactionCard from './TransactionCard.jsx'
 
 const Dashboard = () => {
     const [linkToken, setLinkToken] = useState(null);
@@ -11,10 +11,8 @@ const Dashboard = () => {
         token: linkToken,
         onSuccess: async (publicToken) => {
             try {
-                // Exchange token and then refresh the dashboard state
                 await api.post('/plaid/exchange-public-token', { publicToken });
                 alert("Bank connected successfully!");
-                // Optional: You could trigger a sync here automatically
                 setLinkToken(null);
             } catch (err) {
                 console.error("Exchange failed", err);
@@ -80,7 +78,7 @@ const Dashboard = () => {
 
             {/* Main Content Area */}
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                <TransactionList />
+               <TransactionCard></TransactionCard>
             </div>
         </div>
     );

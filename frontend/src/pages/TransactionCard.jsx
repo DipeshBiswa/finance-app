@@ -1,32 +1,27 @@
-const TransactionCard = ({ transaction }) => {
-    const formattedDate = new Date(transaction.date).toLocaleDateString(undefined, {
-        month: 'short', day: 'numeric'
-    });
+import api from "../api/axios.js";
+import {useEffect, useState} from "react";
+export default function TransactionCard(){
+    const [syncedTransaction, setSynchTransaction] = useState(null);
+    const [transactions, setTransactions] = useState([]);
+    const refreshData = async () => {
+        setSynchTransaction(true);
+        try {
+            await api.post('/plaid/sync');
+            const response = await api.get('/transaction');
+            setTransactions(response.data);
+        } catch (err) {
+            console.error("Sync failed", err);
+            alert("Failed to sync new transactions.");
+        } finally {
+            setSynchTransaction(false);
+        }
+    };
+    useEffect(() => {
+        refreshData();
+    },[]);
+    return(
+        <div>
 
-    const isExpense = transaction.amount > 0;
-
-    return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '16px',
-            borderBottom: '1px solid #f0f0f0'
-        }}>
-            <div>
-                {/* Use .description here to match your Java Entity */}
-                <div style={{ fontWeight: '500', marginBottom: '4px' }}>{transaction.description}</div>
-                <div style={{ fontSize: '0.8rem', color: '#888', textTransform: 'capitalize' }}>
-                    {transaction.catagory?.toLowerCase() || 'unclassified'} • {formattedDate}
-                </div>
-            </div>
-            <div style={{
-                fontWeight: '600',
-                color: isExpense ? '#d93025' : '#188038'
-            }}>
-                {isExpense ? '-' : '+'} ${Math.abs(transaction.amount).toFixed(2)}
-            </div>
         </div>
     );
-};
-
-export default TransactionCard;
+}

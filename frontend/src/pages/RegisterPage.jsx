@@ -22,7 +22,7 @@ function RegisterPage() {
             email: email
         };
         try {
-            const response = await api.post("/api/auth/register", userPayload);
+            const response = await api.post("/auth/register", userPayload);
             console.log("Registration Successful!", response.data);
             alert("User registered!");
             window.location.href = "/dashboard";
