@@ -2,6 +2,7 @@ package com.financeapp.finance_app.controller;
 
 import com.financeapp.finance_app.service.PlaidService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,18 +19,13 @@ public class PlaidController {
         this.plaidService = plaidService;
     }
     @PostMapping("/create-link-token")
-    public ResponseEntity<?> createLinkToken(Principal principal) {
-        try {
-            // If principal is null, use a fallback username for testing
-            String username = (principal != null) ? principal.getName() : "test_user";
-            System.out.println("DEBUG: Fetching token for: " + username);
-
-            String linkToken = plaidService.createLinkToken(username);
-            return ResponseEntity.ok(Map.of("linkToken", linkToken));
-        } catch (Exception e) {
-            e.printStackTrace(); // This prints the error to your IntelliJ console
-            return ResponseEntity.status(500).body("Plaid Service Error: " + e.getMessage());
+    public ResponseEntity<?> createLinkToken(Principal principal) throws Exception {
+        if (principal == null) {
+            return ResponseEntity.status(401).body("Error: You must be logged in.");
         }
+        // Now you know for sure principal.getName() won't crash
+        String linkToken = plaidService.createLinkToken(principal.getName());
+        return ResponseEntity.ok(Map.of("linkToken", linkToken));
     }
     @PostMapping("/exchange-public-token")
     public ResponseEntity<?> exchangeToken(@RequestBody Map<String, String> payload, Principal principal)throws Exception{
@@ -43,6 +39,10 @@ public class PlaidController {
     @PostMapping("/sync")
     public ResponseEntity<?> triggerSync(Principal principal) throws Exception{
         try{
+            if (principal == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("error: No logged-in user found.");
+            }
             plaidService.syncTransactions(principal.getName());
             return ResponseEntity.ok().body(Map.of("message", "Sync completed"));
         }catch(Exception e){

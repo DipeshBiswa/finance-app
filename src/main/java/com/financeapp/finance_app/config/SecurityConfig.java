@@ -1,5 +1,6 @@
 package com.financeapp.finance_app.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,15 +30,28 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Remove the extra period here
-                        .requestMatchers("/api/plaid/**").permitAll() // This MUST match your Controller @RequestMapping
-                        .requestMatchers("/error").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/plaid/create-link-token").authenticated()
+                        .requestMatchers("/api/plaid/exchange-public-token").authenticated()
+                        .requestMatchers("/api/plaid/sync").authenticated()
+                        .requestMatchers("/api/transaction/**").authenticated()
+                        .requestMatchers("/api/plaid/**").permitAll()
                         .anyRequest().authenticated()
+                )
+                // ADD THIS PART BELOW
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.getWriter().write("{\"error\": \"Unauthorized - Please log in\"}");
+                        })
                 )
                 .formLogin(form -> form
                         .loginProcessingUrl("/api/auth/login")
-                        .successHandler((req, res, auth) -> res.setStatus(200))
+                        .successHandler((req, res, auth) -> {
+                            res.setStatus(200);
+                            res.setContentType("application/json");
+                            res.getWriter().write("{\"message\": \"Login successful\"}");
+                        })
                         .failureHandler((req, res, exp) -> res.setStatus(401))
                 );
 
@@ -49,7 +63,10 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(java.util.List.of("http://localhost:5173"));
         configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(java.util.List.of("Authorization", "Cache-Control", "Content-Type"));
+
+        // Add "*" to allowed headers to avoid preflight blocks
+        configuration.setAllowedHeaders(java.util.List.of("*"));
+
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
