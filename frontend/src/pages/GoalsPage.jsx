@@ -3,12 +3,12 @@ import api from "../api/axios.js";
 import "./GoalsPage.css";
 
 const CATEGORY_OPTIONS = [
-    { value: "FOODDINING",     label: "🍔 Food & Dining" },
-    { value: "SHOPPING",       label: "🛍️ Shopping" },
-    { value: "TRANSPORTATION", label: "🚗 Transportation" },
-    { value: "RENT_AND_BILLS", label: "🏠 Rent & Bills" },
-    { value: "INCOME",         label: "💰 Income" },
-    { value: "OTHER",          label: "📦 Other" },
+    { value: "FOODDINING",     label: "Food & Dining" },
+    { value: "SHOPPING",       label: "Shopping" },
+    { value: "TRANSPORTATION", label: "Transportation" },
+    { value: "RENT_AND_BILLS", label: "Rent & Bills" },
+    { value: "INCOME",         label: "Income" },
+    { value: "OTHER",          label: "Other" },
 ];
 
 const CATEGORY_COLORS = {
@@ -198,7 +198,6 @@ export default function GoalsPage() {
                 </div>
             ) : goals.length === 0 ? (
                 <div className="gp-empty">
-                    <span className="gp-empty-icon">🎯</span>
                     <p>No goals yet. Create one to start tracking your spending.</p>
                 </div>
             ) : (
@@ -250,7 +249,7 @@ export default function GoalsPage() {
 
                                 {over && (
                                     <div className="gp-reached" style={{ background: color + "18", color }}>
-                                        🎉 Target reached!
+                                        Target reached!
                                     </div>
                                 )}
                             </div>

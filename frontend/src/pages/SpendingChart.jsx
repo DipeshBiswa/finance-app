@@ -112,11 +112,11 @@ export default function SpendingChart({ onClose }) {
                         <button
                             className={`sc-tab ${tab === "monthly" ? "active" : ""}`}
                             onClick={() => setTab("monthly")}
-                        >📅 Monthly</button>
+                        >Monthly</button>
                         <button
                             className={`sc-tab ${tab === "category" ? "active" : ""}`}
                             onClick={() => setTab("category")}
-                        >🥧 By Category</button>
+                        >By Category</button>
                     </div>
                     {tab === "monthly" && (
                         <select
@@ -171,7 +171,6 @@ export default function SpendingChart({ onClose }) {
                         </>
                     ) : catData.length === 0 ? (
                         <div className="sc-empty">
-                            <span>🥧</span>
                             <p>No category data yet. Link a bank and sync transactions.</p>
                         </div>
                     ) : (

@@ -12,7 +12,7 @@ function NavBar({ isLoggedIn, onLogout }) {
 
     return (
         <nav className="app-nav">
-            <div className="app-nav-brand">💰 FinanceApp</div>
+            <div className="app-nav-brand">FinanceApp</div>
             <div className="app-nav-links">
                 {isLoggedIn ? (
                     <>

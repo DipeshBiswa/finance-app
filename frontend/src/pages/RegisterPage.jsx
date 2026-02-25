@@ -31,7 +31,6 @@ function RegisterPage() {
     return (
         <div className="auth-bg">
             <div className="auth-card">
-                <div className="auth-icon">🌿</div>
                 <h1 className="auth-title">Create account</h1>
                 <p className="auth-subtitle">Start managing your finances today</p>
 

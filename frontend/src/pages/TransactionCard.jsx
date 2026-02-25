@@ -4,12 +4,12 @@ import "./TransactionCard.css";
 import SpendingChart from "./SpendingChart.jsx";
 
 const CATEGORY_CONFIG = {
-    FOODDINING:      { label: "Food & Dining",     icon: "🍔", color: "#f97316" },
-    SHOPPING:        { label: "Shopping",           icon: "🛍️", color: "#8b5cf6" },
-    TRANSPORTATION:  { label: "Transportation",     icon: "🚗", color: "#3b82f6" },
-    RENT_AND_BILLS:  { label: "Rent & Bills",       icon: "🏠", color: "#ef4444" },
-    INCOME:          { label: "Income",             icon: "💰", color: "#22c55e" },
-    OTHER:           { label: "Other",              icon: "📦", color: "#6b7280" },
+    FOODDINING:      { label: "Food & Dining",     color: "#f97316" },
+    SHOPPING:        { label: "Shopping",           color: "#8b5cf6" },
+    TRANSPORTATION:  { label: "Transportation",     color: "#3b82f6" },
+    RENT_AND_BILLS:  { label: "Rent & Bills",       color: "#ef4444" },
+    INCOME:          { label: "Income",             color: "#22c55e" },
+    OTHER:           { label: "Other",              color: "#6b7280" },
 };
 
 function formatDate(dateStr) {
@@ -96,7 +96,7 @@ export default function TransactionCard() {
                         onClick={() => setShowChart(true)}
                         className="tc-chart-btn"
                     >
-                        📊 Charts
+                        Charts
                     </button>
                     {monthTotal != null && (
                         <div className="tc-month-total">
@@ -118,7 +118,6 @@ export default function TransactionCard() {
                                 className="tc-cat-pill"
                                 style={{ borderColor: cfg.color, background: cfg.color + "18" }}
                             >
-                                <span>{cfg.icon}</span>
                                 <span className="tc-cat-pill-label">{cfg.label}</span>
                                 <span className="tc-cat-pill-amount" style={{ color: cfg.color }}>
                                     ${parseFloat(total).toFixed(2)}
@@ -142,7 +141,7 @@ export default function TransactionCard() {
                                 ? { background: cfg.color, borderColor: cfg.color, color: "#fff" }
                                 : {}}
                         >
-                            {cfg ? `${cfg.icon} ${cfg.label}` : "All"}
+                            {cfg ? cfg.label : "All"}
                         </button>
                     );
                 })}
@@ -156,7 +155,6 @@ export default function TransactionCard() {
                 </div>
             ) : filtered.length === 0 ? (
                 <div className="tc-empty">
-                    <span className="tc-empty-icon">🏦</span>
                     <p>No transactions yet. Link a bank to get started.</p>
                 </div>
             ) : (
@@ -173,7 +171,7 @@ export default function TransactionCard() {
                                             className="tc-row-icon"
                                             style={{ background: cfg.color + "22", color: cfg.color }}
                                         >
-                                            {cfg.icon}
+                                            {cfg.label[0]}
                                         </div>
                                         <div className="tc-row-info">
                                             <p className="tc-row-desc">
