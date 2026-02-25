@@ -1,7 +1,6 @@
 package com.financeapp.finance_app.controller;
 
 import com.financeapp.finance_app.service.PlaidService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +11,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/plaid")
 public class PlaidController {
-    @Autowired
-    private PlaidService plaidService;
+    private final PlaidService plaidService;
 
     public PlaidController(PlaidService plaidService){
         this.plaidService = plaidService;
@@ -33,8 +31,8 @@ public class PlaidController {
         if(publicToken == null){
             return ResponseEntity.badRequest().body("publicToken is missing");
         }
-        String exhangedToken = plaidService.exchangePublicToken(publicToken, principal.getName());
-        return ResponseEntity.ok().body(Map.of(exhangedToken, "Bank account linked successfully"));
+        String exchangedToken = plaidService.exchangePublicToken(publicToken, principal.getName());
+        return ResponseEntity.ok().body(Map.of("message", exchangedToken));
     }
     @PostMapping("/sync")
     public ResponseEntity<?> triggerSync(Principal principal) throws Exception{

@@ -1,47 +1,82 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 import api from '../api/axios';
 import TransactionCard from './TransactionCard.jsx';
+
+// Isolated component so usePlaidLink only mounts when a real token exists.
+// This prevents the "Plaid script embedded more than once" warning.
+const PlaidLinkLauncher = ({ token, onSuccess, onExit }) => {
+    const { open, ready } = usePlaidLink({ token, onSuccess, onExit });
+    useEffect(() => {
+        if (ready) open();
+    }, [ready, open]);
+    return null;
+};
 
 const Dashboard = () => {
     const [linkToken, setLinkToken] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0);
 
-    // usePlaidLink should only initialize when linkToken is actually present
-    const { open, ready } = usePlaidLink({
-        token: linkToken,
-        onSuccess: async (publicToken) => {
-            try {
-                // This will fail if principal is null!
-                await api.post('/plaid/exchange-public-token', { publicToken });
-                setRefreshKey(prev => prev + 1);
-                setLinkToken(null); // Clear token after success
-            } catch (err) {
-                console.error("Link flow failed", err);
-            }
-        },
-        onExit: () => setLinkToken(null), // Clear token if user closes popup
-    });
-
-    // Only call open() once when the token is ready
+    // Redirect to login if not authenticated
     useEffect(() => {
-        if (ready && linkToken) {
-            open();
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.warn("No auth token found — redirecting to login");
+            window.location.href = "/";
         }
-    }, [ready, linkToken]);
+    }, []);
+
+    const onSuccess = useCallback(async (publicToken) => {
+        try {
+            await api.post('/plaid/exchange-public-token', { publicToken });
+            setRefreshKey(prev => prev + 1);
+            setLinkToken(null);
+        } catch (err) {
+            console.error("Link flow failed", err);
+        }
+    }, []);
+
+    const onExit = useCallback(() => setLinkToken(null), []);
 
     const handleConnectClick = async () => {
         try {
             const response = await api.post('/plaid/create-link-token');
             setLinkToken(response.data.linkToken);
         } catch (error) {
-            console.error("Check if you are logged in!", error);
+            console.error("Failed to get link token:", error.response?.status, error.response?.data);
         }
     };
 
     return (
-        <div>
-            <button onClick={handleConnectClick}>Connect Bank</button>
+        <div style={{ maxWidth: 760, margin: "0 auto", padding: "2rem 1rem" }}>
+            <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+                <button
+                    onClick={handleConnectClick}
+                    style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 8,
+                        padding: "10px 22px",
+                        background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: 10,
+                        fontWeight: 600,
+                        fontSize: "0.9rem",
+                        cursor: "pointer",
+                        boxShadow: "0 4px 14px rgba(99,102,241,0.35)",
+                    }}
+                >
+                    🏦 Connect Bank
+                </button>
+            </div>
+            {linkToken && (
+                <PlaidLinkLauncher
+                    token={linkToken}
+                    onSuccess={onSuccess}
+                    onExit={onExit}
+                />
+            )}
             <TransactionCard key={refreshKey} />
         </div>
     );

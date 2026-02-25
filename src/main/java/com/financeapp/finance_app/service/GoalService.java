@@ -47,5 +47,7 @@ public class GoalService {
        goalRepository.deleteById(goalId);
     }
 
-
+    public List<Goal> getGoalsByUser(user user) {
+        return goalRepository.findAllByUser(user);
+    }
 }

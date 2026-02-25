@@ -59,7 +59,16 @@ public class PlaidService {
     }
     public Transaction convertToTransaction(com.plaid.client.model.Transaction transaction, user user) {
         com.financeapp.finance_app.model.Transaction entity = new com.financeapp.finance_app.model.Transaction();
-        entity.setDescription(transaction.getOriginalDescription());
+
+        // Prefer merchantName → name → originalDescription, in that order
+        String description = transaction.getMerchantName();
+        if (description == null || description.isBlank()) {
+            description = transaction.getName();
+        }
+        if (description == null || description.isBlank()) {
+            description = transaction.getOriginalDescription();
+        }
+        entity.setDescription(description);
         entity.setDate(transaction.getDate().atStartOfDay());
         entity.setAmount(BigDecimal.valueOf(transaction.getAmount()));
 
@@ -71,6 +80,9 @@ public class PlaidService {
     }
     public void syncTransactions(String username)throws Exception{
         user user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("user not found: "+ username));
+        if(user.getPlaidAccessToken() == null || user.getPlaidAccessToken().isEmpty()){
+            throw new RuntimeException("User has not linked a bank account yet");
+        }
         String cursor = user.getPlaidCursor();
         boolean hasMore = true;
 
