@@ -1,44 +1,94 @@
 package com.financeapp.finance_app.service;
 
-import com.financeapp.finance_app.model.user;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 
 @Service
 public class JwtService {
-    private String secretKey;
+    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
     private SecretKey key;
 
     public JwtService(@Value("${jwt.secret}") String secretKey) {
-        this.secretKey = secretKey;
         byte[] byteArray = secretKey.getBytes();
         key = Keys.hmacShaKeyFor(byteArray);
+        logger.info("✓ JwtService initialized with secret key");
     }
 
     Long expiration = 86400000L;
+    
     public String generateToken(String username){
-        return Jwts.builder().subject(username).issuedAt(new Date(System.currentTimeMillis())).expiration(new Date(System.currentTimeMillis() + expiration)).signWith(key).compact();
+        String token = Jwts.builder()
+                .subject(username)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(key)
+                .compact();
+        logger.info("✓ Generated token for user: " + username);
+        return token;
     }
+    
     public String extractUsername(String token){
-        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
+        try {
+            String username = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getSubject();
+            logger.info("✓ Extracted username from token: " + username);
+            return username;
+        } catch (Exception e) {
+            logger.error("✗ Error extracting username from token: " + e.getMessage());
+            throw e;
+        }
     }
-    private Date extractExpriationDate(String token){
-        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getExpiration();
+    
+    private Date extractExpirationDate(String token){
+        try {
+            return Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getExpiration();
+        } catch (Exception e) {
+            logger.error("✗ Error extracting expiration date: " + e.getMessage());
+            throw e;
+        }
     }
+    
     public boolean isTokenExpired(String token){
-        Date expiration = extractExpriationDate(token);
-        return expiration.before(new Date());
+        try {
+            Date expiration = extractExpirationDate(token);
+            boolean expired = expiration.before(new Date());
+            logger.info("Token expiration check: expired=" + expired);
+            return expired;
+        } catch (Exception e) {
+            logger.error("✗ Error checking token expiration: " + e.getMessage());
+            return true;
+        }
     }
+    
     public boolean isValidToken(String token, String username){
-        return (username.equals(extractUsername(token))) &&  !isTokenExpired(token);
+        try {
+            String extractedUsername = extractUsername(token);
+            boolean usernameMatch = username.equals(extractedUsername);
+            boolean notExpired = !isTokenExpired(token);
+            boolean valid = usernameMatch && notExpired;
+            
+            logger.info("Token validation: username_match=" + usernameMatch + ", not_expired=" + notExpired + ", valid=" + valid);
+            return valid;
+        } catch (Exception e) {
+            logger.error("✗ Error validating token: " + e.getMessage());
+            return false;
+        }
     }
-
-
-
 }
+

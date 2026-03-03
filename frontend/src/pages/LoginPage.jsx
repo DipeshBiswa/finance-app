@@ -1,63 +1,74 @@
-import {useState, useEffect} from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../api/axios.js";
-import "./Loginpage.css"
+import "./AuthPages.css";
 
-function LoginPage() {
-
+function LoginPage({ onLogin }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    function handleChangeUsername(e){
-        setUsername(e.target.value);
-    }
-    function handleChangePassword(e){
-        setPassword(e.target.value);
-    }
+    const [error, setError]       = useState("");
+    const [loading, setLoading]   = useState(false);
+
     const handleLogin = async (e) => {
         e.preventDefault();
-
-        // 1. Create Form Data instead of a raw object
-        const params = new URLSearchParams();
-        params.append('username', username);
-        params.append('password', password);
-
+        setError("");
+        setLoading(true);
         try {
-            // 2. Send the params. Axios will automatically set
-            // the Content-Type to application/x-www-form-urlencoded
-            const response = await api.post("/auth/login", params);
-
-            if (response.status === 200) {
-                console.log("Logged in successfully!");
-                // Use window.location or useNavigate to go to /dashboard
+            const response = await api.post('/auth/login', { username, password });
+            const token = response.data.token;
+            if (token) {
+                localStorage.setItem('token', token);
+                if (onLogin) onLogin();
                 window.location.href = "/dashboard";
             }
         } catch (err) {
-            // If it's still 401, check if the password was BCrypt encoded in the DB!
-            console.error("Login failed. Status:", err.response?.status);
-            alert("Invalid credentials or Server Error");
+            setError(err.response?.data?.error || "Invalid username or password.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div>
+        <div className="auth-bg">
+            <div className="auth-card">
+                <h1 className="auth-title">Welcome back</h1>
+                <p className="auth-subtitle">Sign in to your FinanceApp account</p>
 
-        <form onSubmit={handleLogin}>
-            <label>
-                Enter username:
-                <input type="text" value={username} onChange={handleChangeUsername} placeholder="username" />
-            </label>
-            <label>
-                Enter Password:
-                <input type="text"
-                       value={password}
-                       onChange={handleChangePassword}
-                       placeholder="password" />
-            </label>
-            <input type="submit" value="Login" />
-        </form>
-            <p>Current username: {username}</p>
-            <p>Current password: {password}</p>
+                {error && <div className="auth-error">{error}</div>}
+
+                <form onSubmit={handleLogin} className="auth-form">
+                    <div className="auth-field">
+                        <label className="auth-label">Username</label>
+                        <input
+                            className="auth-input"
+                            type="text"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                            placeholder="Enter your username"
+                            required
+                        />
+                    </div>
+                    <div className="auth-field">
+                        <label className="auth-label">Password</label>
+                        <input
+                            className="auth-input"
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            placeholder="Enter your password"
+                            required
+                        />
+                    </div>
+                    <button className="auth-btn" type="submit" disabled={loading}>
+                        {loading ? "Signing in…" : "Sign In"}
+                    </button>
+                </form>
+
+                <p className="auth-switch">
+                    Don't have an account? <Link to="/register" className="auth-link">Register</Link>
+                </p>
+            </div>
         </div>
-
     );
 }
 

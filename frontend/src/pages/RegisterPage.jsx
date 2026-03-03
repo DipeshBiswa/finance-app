@@ -1,57 +1,84 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../api/axios.js";
-import "./Registerpage.css"
+import "./AuthPages.css";
 
 function RegisterPage() {
-    // 1. Keep your state at the top level
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
+    const [email, setEmail]       = useState("");
+    const [error, setError]       = useState("");
+    const [loading, setLoading]   = useState(false);
 
     const handleRegister = async (e) => {
-        if (e) e.preventDefault(); // Prevents page reload
+        e.preventDefault();
+        setError("");
 
-        const userPayload = {
-            username: username,
-            password: password,
-            email: email
-        };
+        if (password.length < 8) { setError("Password must be at least 8 characters."); return; }
+        if (username.length < 6) { setError("Username must be at least 6 characters."); return; }
 
+        setLoading(true);
         try {
-            const response = await api.post("/api/auth/register", userPayload);
-            console.log("Registration Successful!", response.data);
-            alert("User registered!");
+            await api.post("/auth/register", { username, password, email });
+            window.location.href = "/";
         } catch (err) {
-            console.error("Error registering user", err.response?.data);
-            alert("Registration failed: " + (err.response?.data?.message || "Check console"));
+            setError(err.response?.data?.message || err.response?.data || "Registration failed. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="p-4">
-            <form onSubmit={handleRegister}>
-                <div>
-                    <label>Enter username:</label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </div>
-                <div>
-                    <label>Enter Password:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <div>
-                    <label>Enter email:</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </div>
+        <div className="auth-bg">
+            <div className="auth-card">
+                <h1 className="auth-title">Create account</h1>
+                <p className="auth-subtitle">Start managing your finances today</p>
 
-                {/* Submit button inside form is standard */}
-                <button type="submit" className="mt-4 bg-blue-500 text-white p-2">
-                    Register
-                </button>
-            </form>
+                {error && <div className="auth-error">{error}</div>}
 
-            <hr className="my-4" />
-            <p>Current username: {username}</p>
-            <p>Email: {email}</p>
+                <form onSubmit={handleRegister} className="auth-form">
+                    <div className="auth-field">
+                        <label className="auth-label">Username</label>
+                        <input
+                            className="auth-input"
+                            type="text"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                            placeholder="At least 6 characters"
+                            required
+                        />
+                    </div>
+                    <div className="auth-field">
+                        <label className="auth-label">Email</label>
+                        <input
+                            className="auth-input"
+                            type="email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            placeholder="you@example.com"
+                            required
+                        />
+                    </div>
+                    <div className="auth-field">
+                        <label className="auth-label">Password</label>
+                        <input
+                            className="auth-input"
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            placeholder="At least 8 characters"
+                            required
+                        />
+                    </div>
+                    <button className="auth-btn" type="submit" disabled={loading}>
+                        {loading ? "Creating account…" : "Create Account"}
+                    </button>
+                </form>
+
+                <p className="auth-switch">
+                    Already have an account? <Link to="/" className="auth-link">Sign in</Link>
+                </p>
+            </div>
         </div>
     );
 }

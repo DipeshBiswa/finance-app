@@ -1,0 +1,228 @@
+/* ─── Backdrop ───────────────────────────────────── */
+.sc-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(60, 40, 25, 0.45);
+    backdrop-filter: blur(3px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: sc-fade-in 0.18s ease;
+}
+@keyframes sc-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* ─── Modal ──────────────────────────────────────── */
+.sc-modal {
+    background: #fdfaf4;
+    border: 1.5px solid #e8ddd0;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(60, 40, 25, 0.25);
+    animation: sc-slide-up 0.2s ease;
+}
+@keyframes sc-slide-up {
+    from { transform: translateY(24px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ─── Modal header ───────────────────────────────── */
+.sc-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1.5rem 1.75rem 0;
+}
+
+.sc-modal-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #5c4033;
+    margin: 0 0 4px;
+    letter-spacing: -0.3px;
+}
+
+.sc-modal-subtitle {
+    margin: 0;
+    font-size: 0.84rem;
+    color: #a89584;
+}
+
+.sc-close-btn {
+    background: #ede7df;
+    border: none;
+    color: #7a5c4e;
+    font-size: 0.85rem;
+    font-weight: 700;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+}
+.sc-close-btn:hover {
+    background: #f0b8a8;
+    color: #9b3a2a;
+}
+
+/* ─── Controls (tabs + year) ─────────────────────── */
+.sc-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.75rem 0;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.sc-tabs {
+    display: flex;
+    gap: 6px;
+    background: #ede7df;
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.sc-tab {
+    padding: 7px 18px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: #7a5c4e;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+.sc-tab.active {
+    background: #fdfaf4;
+    color: #5c4033;
+    box-shadow: 0 1px 4px rgba(92, 64, 51, 0.12);
+}
+
+.sc-year-select {
+    padding: 7px 12px;
+    border: 1.5px solid #e0d4c8;
+    border-radius: 9px;
+    background: #faf6f0;
+    color: #5c4033;
+    font-size: 0.86rem;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+.sc-year-select:focus {
+    border-color: #c4956a;
+    box-shadow: 0 0 0 3px rgba(196, 149, 106, 0.18);
+}
+
+/* ─── Chart area ─────────────────────────────────── */
+.sc-chart-area {
+    padding: 1.25rem 1.75rem 1.75rem;
+}
+
+.sc-chart-heading {
+    margin: 0 0 1.1rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #a89584;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* ─── Loading ─────────────────────────────────────── */
+.sc-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem;
+    color: #a89584;
+    gap: 0.75rem;
+}
+.sc-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e8ddd0;
+    border-top-color: #a0775a;
+    border-radius: 50%;
+    animation: sc-spin 0.7s linear infinite;
+}
+@keyframes sc-spin { to { transform: rotate(360deg); } }
+
+/* ─── Empty ──────────────────────────────────────── */
+.sc-empty {
+    text-align: center;
+    padding: 2.5rem;
+    color: #a89584;
+    font-size: 0.9rem;
+}
+.sc-empty span {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* ─── Tooltip ─────────────────────────────────────── */
+.sc-tooltip {
+    background: #fff;
+    border: 1.5px solid #e8ddd0;
+    border-radius: 10px;
+    padding: 8px 14px;
+    box-shadow: 0 4px 14px rgba(92, 64, 51, 0.12);
+}
+.sc-tooltip-label {
+    margin: 0 0 2px;
+    font-size: 0.78rem;
+    color: #a89584;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.sc-tooltip-value {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #5c4033;
+}
+
+/* ─── Category breakdown table ───────────────────── */
+.sc-cat-table {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.sc-cat-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: #f5f0e8;
+}
+.sc-cat-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.sc-cat-name {
+    flex: 1;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #5c4033;
+}
+.sc-cat-amount {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #3d2b1f;
+}

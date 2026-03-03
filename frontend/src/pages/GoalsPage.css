@@ -1,0 +1,302 @@
+/* ─── Page wrapper ───────────────────────────────── */
+.gp-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* ─── Header ─────────────────────────────────────── */
+.gp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+}
+
+.gp-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #5c4033;
+    letter-spacing: -0.5px;
+    margin: 0 0 4px;
+}
+
+.gp-subtitle {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #a89584;
+}
+
+.gp-add-btn {
+    padding: 10px 22px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #a0775a, #8b6350);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(139, 99, 80, 0.3);
+    transition: background 0.18s, transform 0.1s;
+}
+.gp-add-btn:hover {
+    background: linear-gradient(135deg, #8b6350, #74503f);
+    transform: translateY(-1px);
+}
+
+/* ─── Create form card ───────────────────────────── */
+.gp-form-card {
+    background: #fdfaf4;
+    border: 1.5px solid #e8ddd0;
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin-bottom: 1.75rem;
+    box-shadow: 0 2px 12px rgba(92, 64, 51, 0.07);
+}
+
+.gp-form-title {
+    margin: 0 0 1.25rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #5c4033;
+}
+
+.gp-error {
+    background: #fdf0ed;
+    border: 1px solid #f0b8a8;
+    color: #9b3a2a;
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: 0.84rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.gp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.gp-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 560px) {
+    .gp-form-row { grid-template-columns: 1fr; }
+}
+
+.gp-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.gp-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #7a5c4e;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.gp-optional {
+    font-weight: 400;
+    text-transform: none;
+    color: #a89584;
+    font-size: 0.75rem;
+    letter-spacing: 0;
+}
+
+.gp-input {
+    padding: 10px 13px;
+    border: 1.5px solid #e0d4c8;
+    border-radius: 10px;
+    background: #faf6f0;
+    color: #3d2b1f;
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    font-family: inherit;
+}
+.gp-input::placeholder { color: #c4b0a4; }
+.gp-input:focus {
+    border-color: #c4956a;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(196, 149, 106, 0.18);
+}
+
+.gp-submit-btn {
+    align-self: flex-start;
+    padding: 11px 28px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #a0775a, #8b6350);
+    color: #fff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.1s;
+    box-shadow: 0 3px 10px rgba(139, 99, 80, 0.25);
+}
+.gp-submit-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #8b6350, #74503f);
+    transform: translateY(-1px);
+}
+.gp-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ─── Loading / Empty ────────────────────────────── */
+.gp-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem;
+    color: #a89584;
+    gap: 1rem;
+}
+
+.gp-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid #e8ddd0;
+    border-top-color: #a0775a;
+    border-radius: 50%;
+    animation: gp-spin 0.7s linear infinite;
+}
+@keyframes gp-spin { to { transform: rotate(360deg); } }
+
+.gp-empty {
+    text-align: center;
+    padding: 3rem;
+    background: #fdfaf4;
+    border: 2px dashed #e8ddd0;
+    border-radius: 16px;
+    color: #a89584;
+}
+.gp-empty-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+/* ─── Goals grid ─────────────────────────────────── */
+.gp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.25rem;
+}
+
+/* ─── Goal card ──────────────────────────────────── */
+.gp-card {
+    background: #fdfaf4;
+    border: 1.5px solid #e8ddd0;
+    border-top: 4px solid;          /* colored accent set inline */
+    border-radius: 14px;
+    padding: 1.25rem 1.25rem 1rem;
+    box-shadow: 0 2px 10px rgba(92, 64, 51, 0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.gp-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(92, 64, 51, 0.1);
+}
+
+.gp-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.gp-card-category {
+    margin: 0 0 3px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.gp-card-title {
+    margin: 0 0 4px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #3d2b1f;
+}
+
+.gp-card-desc {
+    margin: 0;
+    font-size: 0.83rem;
+    color: #a89584;
+}
+
+.gp-delete-btn {
+    background: none;
+    border: none;
+    color: #c4b0a4;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.gp-delete-btn:hover {
+    background: #fdf0ed;
+    color: #c0392b;
+}
+
+/* ─── Progress bar ───────────────────────────────── */
+.gp-bar-track {
+    height: 9px;
+    background: #ede7df;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 0.85rem;
+}
+
+.gp-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.5s ease;
+}
+
+/* ─── Stats row ──────────────────────────────────── */
+.gp-card-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gp-stat-label {
+    margin: 0 0 2px;
+    font-size: 0.72rem;
+    color: #a89584;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.gp-stat-value {
+    margin: 0;
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: #3d2b1f;
+}
+
+.gp-stat-pct {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+/* ─── Reached banner ─────────────────────────────── */
+.gp-reached {
+    margin-top: 0.9rem;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+}

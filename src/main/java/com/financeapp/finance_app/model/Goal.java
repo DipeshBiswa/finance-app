@@ -1,5 +1,6 @@
 package com.financeapp.finance_app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class Goal {
     private LocalDateTime date;
     private BigDecimal current_amount;
     private BigDecimal target_amount;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private user user;
