@@ -12,7 +12,7 @@ public class GeminiBot {
         GenerateContentResponse response =
         client.models.generateContent(
             "gemini-3-flash-preview",
-            "Explain how AI works in a few words",
+            "What is the market price for Apple Inc as of 2026? Give me the exact amount in USD",
             null);
 
         System.out.println(response.text());
