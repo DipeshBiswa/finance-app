@@ -32,9 +32,6 @@ public class TransactionService {
     public List<Transaction> getTransactionsByUser(user user){
         return transactionRepository.findByUser(user);
     }
-    public List<Transaction> getTransactionsByUserId(Long userId){
-        return transactionRepository.findByUserId(userId);
-    }
 
     public Page<Transaction> getTransactionByUsingUserPaginated(user user, int page, int size){
         Pageable pageable = PageRequest.of(page, size, Sort.by("date").descending());

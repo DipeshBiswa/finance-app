@@ -3,8 +3,8 @@ package com.financeapp.finance_app.controller;
 import java.security.Principal;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.financeapp.finance_app.model.user;
@@ -22,10 +22,9 @@ public class LLMController {
         this.userService = userService;
     }
     @PostMapping("")
-    public String chat(@RequestParam String userMessage, Principal principal){
+    public String chat(@RequestBody String userMessage, Principal principal){
         user user = (user) userService.loadUserByUsername(principal.getName());
-        
-
+        return llmService.chat(user.getId(), userMessage);
         
     }
 
