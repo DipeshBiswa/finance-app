@@ -26,8 +26,5 @@ public class UserGoalDataTool {
     public String getUserGoals(Long userId){
         user user = userService.findById(userId).orElseThrow();
         return "User Goals: " + goalService.getGoalsByUser(user).toString();
-        
-
     }
-    
 }

@@ -36,5 +36,9 @@ public class UserTransactionDataTool {
         user user = userService.findById(userid).orElseThrow();
         return transactionService.filterByCatagory(user);
     }
-
+    @Tool("Get the account balance of the user")
+    public BigDecimal getUserAccountBalance(Long userId){
+        user user = userService.findById(userId).orElseThrow();
+        return transactionService.getUserAccountBalance(user);
+    }
 }

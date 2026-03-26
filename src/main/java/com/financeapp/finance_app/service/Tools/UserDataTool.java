@@ -18,5 +18,4 @@ public class UserDataTool{
     public String getUserData(Long userId){
         return userService.findById(userId).orElseThrow().toString();
     }
-    
 }
