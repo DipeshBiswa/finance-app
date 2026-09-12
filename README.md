@@ -1,5 +1,5 @@
 Overview
-FinanceFlow AI is a modern personal finance application designed to bridge the gap between banking data and actionable insights. By integrating the Plaid API, users can securely sync their real-world transactions into a custom dashboard. The app features a stateless JWT authentication system and an AI Chatbot to provide natural language feedback on spending habits.
+personal finance application designed to bridge the gap between banking data and actionable insights. By integrating the Plaid API, users can securely sync their real-world transactions into a custom dashboard. The app features a stateless JWT authentication system and an AI Chatbot to provide natural language feedback on spending habits.
 
 🛠️ Tech Stack
 Frontend: React.js,
