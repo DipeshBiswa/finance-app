@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -83,7 +82,6 @@ public class AuthController {
             logger.info("✓ Password matches!");
             String token = jwtService.generateToken(username);
             logger.info("✓✓✓ LOGIN SUCCESSFUL ✓✓✓");
-            logger.info("Token: " + token.substring(0, Math.min(30, token.length())) + "...");
             
             return ResponseEntity.ok(Map.of("token", token, "username", username));
         } catch (Exception e) {

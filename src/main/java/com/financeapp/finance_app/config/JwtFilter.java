@@ -35,7 +35,6 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             logger.info("Authorization header found, extracting token...");
             String token = authHeader.substring(7);
-            logger.info("Token extracted: " + token.substring(0, Math.min(30, token.length())) + "...");
 
             try {
                 String username = jwtService.extractUsername(token);
@@ -55,7 +54,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     }
                 }
             } catch (Exception e) {
-                logger.error("✗ JWT validation error: " + e.getMessage(), e);
+                logger.debug("JWT authentication failed");
             }
         } else {
             logger.debug("No valid Authorization header for: " + requestUri);

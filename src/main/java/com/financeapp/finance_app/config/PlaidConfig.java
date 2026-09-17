@@ -16,6 +16,8 @@ public class PlaidConfig {
     private String clientId;
     @Value("${plaid.secret}")
     private String secret;
+    @Value("${plaid.env:sandbox}")
+    private String environment;
 
     @Bean
     public PlaidApi plaidClient() {
@@ -26,7 +28,11 @@ public class PlaidConfig {
 
         ApiClient apiClient = new ApiClient(apiKeys);
 
-        apiClient.setPlaidAdapter(ApiClient.Sandbox);
+        apiClient.setPlaidAdapter(switch (environment.toLowerCase(java.util.Locale.ROOT)) {
+            case "sandbox" -> ApiClient.Sandbox;
+            case "production" -> ApiClient.Production;
+            default -> throw new IllegalArgumentException("PLAID_ENV must be sandbox or production");
+        });
 
         return apiClient.createService(PlaidApi.class);
 

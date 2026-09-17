@@ -45,7 +45,7 @@ public class JwtService {
             logger.info("✓ Extracted username from token: " + username);
             return username;
         } catch (Exception e) {
-            logger.error("✗ Error extracting username from token: " + e.getMessage());
+            logger.debug("JWT username extraction failed");
             throw e;
         }
     }
@@ -59,7 +59,7 @@ public class JwtService {
                     .getPayload()
                     .getExpiration();
         } catch (Exception e) {
-            logger.error("✗ Error extracting expiration date: " + e.getMessage());
+            logger.debug("JWT expiration extraction failed");
             throw e;
         }
     }
@@ -71,7 +71,7 @@ public class JwtService {
             logger.info("Token expiration check: expired=" + expired);
             return expired;
         } catch (Exception e) {
-            logger.error("✗ Error checking token expiration: " + e.getMessage());
+            logger.debug("JWT expiration check failed");
             return true;
         }
     }
@@ -86,7 +86,7 @@ public class JwtService {
             logger.info("Token validation: username_match=" + usernameMatch + ", not_expired=" + notExpired + ", valid=" + valid);
             return valid;
         } catch (Exception e) {
-            logger.error("✗ Error validating token: " + e.getMessage());
+            logger.debug("JWT validation failed");
             return false;
         }
     }

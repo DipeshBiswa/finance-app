@@ -1,0 +1,14 @@
+.git
+.idea
+.vscode
+.DS_Store
+**/node_modules
+**/dist
+**/target
+**/.env
+**/.env.*
+**/*.local
+**/*.log
+src/main/resources/application-local.properties
+src/main/resources/application-local.yml
+src/main/resources/application-local.yaml

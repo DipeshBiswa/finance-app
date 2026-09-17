@@ -18,8 +18,8 @@ import com.financeapp.finance_app.service.UserService;
 @RequestMapping("/api/chat")
 public class LLMController {
     private static final Logger logger = LoggerFactory.getLogger(LLMController.class);
-    LLMService llmService;
-    UserService userService;
+    private final LLMService llmService;
+    private final UserService userService;
 
     public LLMController(LLMService llmService, UserService userService) {
         this.llmService = llmService;
@@ -34,7 +34,8 @@ public class LLMController {
 
 
         }catch(Exception e){
-            logger.error("Ai Service error: " + e.getMessage(), e);
+            // Provider exceptions can include request URLs and API keys.
+            logger.warn("AI service unavailable ({})", e.getClass().getSimpleName());
             return ResponseEntity.status(503).body("AI Service is currently unavailable. Please try again later.");
         }
         

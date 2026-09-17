@@ -1,0 +1,48 @@
+# One origin for the React app and API; no frontend URL or CORS setup required.
+services:
+  - type: web
+    name: finance-app
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: finance-app-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: finance-app-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: finance-app-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: finance-app-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: finance-app-db
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PLAID_ENV
+        value: sandbox
+      - key: PLAID_CLIENT_ID
+        sync: false
+      - key: PLAID_SECRET
+        sync: false
+      # Add GEMINI_API_KEY in the service's Environment tab to enable chat.
+
+databases:
+  - name: finance-app-db
+    databaseName: finance_app
+    user: finance_app
+    plan: free
+    region: oregon
+    ipAllowList: []
