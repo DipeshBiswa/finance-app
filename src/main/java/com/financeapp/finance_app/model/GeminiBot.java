@@ -11,7 +11,7 @@ public class GeminiBot {
         //Sends a request to the Gemini API to generate content.
         GenerateContentResponse response =
         client.models.generateContent(
-            "gemini-3-flash-preview",
+            "gemini-3-flash",
             "What is the market price for Apple Inc as of 2026? Give me the exact amount in USD",
             null);
 

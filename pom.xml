@@ -51,6 +51,22 @@
     		<artifactId>google-genai</artifactId>
     		<version>0.7.0</version>
 		</dependency>
+		
+		<dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j</artifactId>
+                <version>0.36.2</version>
+        </dependency>
+        <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-core</artifactId>
+                <version>0.36.2</version>
+        </dependency>
+        <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-spring-boot-starter</artifactId>
+                <version>0.36.2</version>
+        </dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>

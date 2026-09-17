@@ -82,5 +82,13 @@ public class TransactionService {
         }
         return map;
     }
+    public BigDecimal getUserAccountBalance(user user){
+        BigDecimal balance = BigDecimal.ZERO;
+        List<Transaction> transactions = transactionRepository.findByUser(user);
+        for(Transaction transaction: transactions){
+            balance = balance.add(transaction.getAmount());
+        }
+        return balance;
+    }
 }
 
